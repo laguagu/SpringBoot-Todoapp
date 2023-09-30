@@ -17,7 +17,7 @@ public class SecuritConfig {
         return http
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/").permitAll();
-                    auth.requestMatchers("/secured").authenticated();
+                    auth.requestMatchers("api/todos/secured").authenticated();
                     auth.anyRequest().permitAll();
                 })
                 .csrf(AbstractHttpConfigurer::disable)
