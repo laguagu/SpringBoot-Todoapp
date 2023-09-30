@@ -1,6 +1,6 @@
 import AddTask from './Components/AddTaks.jsx';
 import TaskList from './Components/TaskList.jsx';
-import { TasksProvider } from './Components/TaksContext.jsx';
+import { TasksProvider } from './TaksContext.jsx';
 
 export default function TaskApp() {
   return (

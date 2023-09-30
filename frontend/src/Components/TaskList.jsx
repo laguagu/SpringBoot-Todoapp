@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { TasksContext,TasksDispatchContext } from './TaksContext.jsx';
+import { TasksContext,TasksDispatchContext } from '../TaksContext.jsx';
 
 export default function TaskList() {
   const tasks = useContext(TasksContext);
