@@ -14,9 +14,13 @@ public class TodoController {
     @Autowired
     private TodoRepository todoRepository;
 
-    @GetMapping
+    @GetMapping("/")
     public List<Todo> getAllTodos() {
         return todoRepository.findAll();
+    }
+    @GetMapping("/secured")
+    public String secured() {
+        return "Hello, Secured";
     }
     @PostMapping
     public Todo addTodo(@RequestBody Todo todo) {
