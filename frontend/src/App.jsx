@@ -1,13 +1,7 @@
-import AddTask from './Components/AddTaks.jsx';
-import TaskList from './Components/TaskList.jsx';
-import { TasksProvider } from './TaksContext.jsx';
+
 
 export default function TaskApp() {
   return (
-    <TasksProvider>
-      <h1>Day off in Kyoto</h1>
-      <AddTask />
-      <TaskList />
-    </TasksProvider>
+      <h1>Day off in Kyoto adsdas</h1>
   );
 }
