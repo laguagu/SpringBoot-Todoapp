@@ -1,7 +1,10 @@
-
+import AddTask from "./Components/AddTask";
 
 export default function TaskApp() {
   return (
-      <h1>Day off in Kyoto adsdas</h1>
+    <div>
+      <h1>Add taskes</h1>
+      <AddTask />
+    </div>
   );
 }
