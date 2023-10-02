@@ -1,9 +1,14 @@
-import { useReducer } from "react";
-
-function taskReducer(task, action){
+export default function taskReducer(tasks, action){
     switch (action.type) {
         case "added":{
-            return
+            return[...tasks, {
+                // id: action.id,
+                text: action.text,
+                done: false
+            }]
+        }
+        default: {
+            throw Error("Uknown action:" + action.type)
         }
     }
 }
