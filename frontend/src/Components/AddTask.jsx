@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Button from 'react-bootstrap/Button';
 
 export default function AddTask({ dispatch }) {
   const [text, setText] = useState("");
@@ -19,14 +20,15 @@ export default function AddTask({ dispatch }) {
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
-      <button
+      <Button
         onClick={() => {
           setText("");
           handleAddTask(text);
         }}
       >
         Add
-      </button>
+      </Button>
+
     </>
   );
 }

@@ -2,6 +2,7 @@ import AddTask from "./Components/AddTask";
 import TaskList from "./Components/TaskList";
 import { useReducer } from "react";
 import taskReducer, {initialTasks} from "./redurecs/tasksReducer";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function TaskApp() {
   const [tasks, dispatch] = useReducer(taskReducer, initialTasks);
