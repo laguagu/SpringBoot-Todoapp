@@ -1,18 +1,51 @@
-export default function TaskList({ tasks }) {
-  const log = (tasks) => {
-    console.log(tasks);
-  };
+import { useState } from "react";
+
+export default function TaskList({ tasks, dispatch }) {
   return (
-      <>
-      <h1>Todos</h1>
+    <>
+      <h1>Tasks</h1>
       <ul>
-        {tasks.map(task => (
-            <li>
-                {task.text}
-            </li>
+        {tasks.map((task) => (
+          <li key={task.id}>
+            <Task task={task} dispatch={dispatch}/>
+          </li>
         ))}
       </ul>
-      <button onClick={() => log(tasks)}>ON click</button>
     </>
+  );
+}
+
+function Task({ task, dispatch }) {
+  const [editing, setEditing] = useState(false);
+  let taskContent;
+
+  const deleteTask = (taskId) => {
+    dispatch({
+        type:"delete",
+        id:taskId
+    })
+  }
+
+  if (editing) {
+    taskContent = (
+      <>
+        <input value={task.text} onChange={(e) => {}} />
+        <button onClick={() => setEditing(false)}>Save</button>
+      </>
+    );
+  } else {
+    taskContent = (
+      <>
+        {task.text}
+        <button onClick={() => setEditing(true)}>Edit</button>
+      </>
+    );
+  }
+  return (
+    <label>
+      <input type="checkbox" checked={task.done} onChange={(e) => {}} />
+      {taskContent}
+      <button onClick={() => deleteTask(task.id)}>Delete</button>
+    </label>
   );
 }

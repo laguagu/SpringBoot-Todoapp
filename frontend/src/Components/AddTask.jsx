@@ -1,20 +1,17 @@
-import { useReducer, useState } from "react";
-import taskReducer from "../redurecs/tasksReducer";
+import { useState } from "react";
 
-
-export default function AddTask() {
+export default function AddTask({ dispatch }) {
   const [text, setText] = useState("");
-  const [tasks, dispatch] = useReducer(taskReducer);
   let nextId = 3;
 
-  const handleAddTask = (task) => {
+  const handleAddTask = (text) => {
     dispatch({
       type: "added",
-      text: task.text,
-      id: nextId++
-    })
-  }
-  
+      id: nextId++,
+      text: text,
+    });
+  };
+
   return (
     <>
       <input
@@ -25,6 +22,7 @@ export default function AddTask() {
       <button
         onClick={() => {
           setText("");
+          handleAddTask(text);
         }}
       >
         Add
