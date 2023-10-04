@@ -3,11 +3,11 @@ import Button from 'react-bootstrap/Button';
 import { TaskContext } from "../contexts/TaskContext";
 
 export default function AddTask() {
-  const {dispatch} = useContext(TaskContext)
+  const {tasks,dispatch} = useContext(TaskContext)
   const [text, setText] = useState("");
-  let nextId = 3;
 
   const handleAddTask = (text) => {
+    let nextId = tasks.length > 0 ? Math.max(...tasks.map(t => t.id)) + 1 : 0;
     dispatch({
       type: "added",
       id: nextId++,

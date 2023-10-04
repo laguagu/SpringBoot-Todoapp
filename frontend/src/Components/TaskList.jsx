@@ -3,6 +3,7 @@ import { TaskContext } from "../contexts/TaskContext";
 
 export default function TaskList() {
   const {tasks, dispatch} = useContext(TaskContext)
+  console.log(tasks)
   return (
     <>
       <h1>Tasks</h1>
