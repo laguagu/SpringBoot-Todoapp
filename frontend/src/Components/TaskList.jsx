@@ -20,6 +20,7 @@ export default function TaskList() {
 
 function Task({ task, dispatch }) {
   const [editing, setEditing] = useState(false);
+  const [editText, setEditText] = useState(task.text)
   let taskContent;
 
   const deleteTask = (taskId) => {
@@ -29,11 +30,25 @@ function Task({ task, dispatch }) {
     })
   }
 
+  const updateTask = (taskId, newText) => {
+    dispatch({
+      type:"update",
+      id: taskId,
+      text: newText
+    })
+  }
+
+  const saveChanges = () => {
+    updateTask(task.id,editText)
+    setEditing(false)
+  }
+
+
   if (editing) {
     taskContent = (
       <>
-        <input value={task.text} onChange={(e) => {}} />
-        <button onClick={() => setEditing(false)}>Save</button>
+        <input value={editText} onChange={e => setEditText(e.target.value)} />
+        <button onClick={() => saveChanges()}>Save</button>
       </>
     );
   } else {

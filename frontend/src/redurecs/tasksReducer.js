@@ -17,9 +17,19 @@ function taskReducer(tasks, action) {
       ];
     }
     case "delete": {
-        return tasks.filter(t => t.id !== action.id)
+      return tasks.filter((t) => t.id !== action.id);
     }
-    
+    case "update": {
+      return tasks.map((task) =>
+        task.id === action.id
+          ? {
+              ...task,
+              text: action.text,
+            }
+          : task
+      );
+    }
+
     default: {
       throw Error("Uknown action:" + action.type);
     }
