@@ -3,7 +3,6 @@ import { TaskContext } from "../contexts/TaskContext";
 
 export default function TaskList() {
   const {tasks, dispatch} = useContext(TaskContext)
-  console.log(tasks)
   return (
     <>
       <h1>Tasks</h1>
@@ -43,12 +42,19 @@ function Task({ task, dispatch }) {
     setEditing(false)
   }
 
+  const setTaskDone = (e) => {
+    dispatch({
+      type:"toggleDone",
+      id: task.id,
+      done: e.target.checked
+    });
+  }
 
   if (editing) {
     taskContent = (
       <>
         <input value={editText} onChange={e => setEditText(e.target.value)} />
-        <button onClick={() => saveChanges()}>Save</button>
+        <button onClick={e => saveChanges(e)}>Save</button>
       </>
     );
   } else {
@@ -61,7 +67,7 @@ function Task({ task, dispatch }) {
   }
   return (
     <label>
-      <input type="checkbox" checked={task.done} onChange={(e) => {}} />
+      <input type="checkbox" checked={task.done} onChange={(e) => (setTaskDone(e))} />
       {taskContent}
       <button onClick={() => deleteTask(task.id)}>Delete</button>
     </label>

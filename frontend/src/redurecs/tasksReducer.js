@@ -1,5 +1,5 @@
 export const initialTasks = [
-  { id: 0, text: "Philosopher’s Path", done: true },
+  { id: 0, text: "Philosopher’s Path", done: false },
   { id: 1, text: "Visit the temple", done: false },
   { id: 2, text: "Drink matcha", done: false },
 ];
@@ -27,6 +27,16 @@ function taskReducer(tasks, action) {
               text: action.text,
             }
           : task
+      );
+    }
+    case "toggleDone": {
+      return tasks.map((t) =>
+        t.id === action.id
+          ? {
+              ...t,
+              done: action.done,
+            }
+          : t
       );
     }
 
