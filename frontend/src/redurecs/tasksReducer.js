@@ -19,6 +19,7 @@ function taskReducer(tasks, action) {
     case "delete": {
         return tasks.filter(t => t.id !== action.id)
     }
+    
     default: {
       throw Error("Uknown action:" + action.type);
     }

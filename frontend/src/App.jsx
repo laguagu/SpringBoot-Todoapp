@@ -1,16 +1,14 @@
+import "bootstrap/dist/css/bootstrap.min.css";
 import AddTask from "./Components/AddTask";
 import TaskList from "./Components/TaskList";
-import { useReducer } from "react";
-import taskReducer, {initialTasks} from "./redurecs/tasksReducer";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { TaskProvider } from "./contexts/TaskContext";
 
 export default function TaskApp() {
-  const [tasks, dispatch] = useReducer(taskReducer, initialTasks);
   return (
-    <div>
+    <TaskProvider>
       <h1>Add tasks</h1>
-      <AddTask dispatch={dispatch} />
-      <TaskList tasks={tasks} dispatch={dispatch}/>
-    </div>
+      <AddTask  />
+      <TaskList />
+    </TaskProvider>
   );
 }

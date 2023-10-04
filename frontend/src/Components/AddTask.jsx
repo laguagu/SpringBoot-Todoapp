@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Button from 'react-bootstrap/Button';
+import { TaskContext } from "../contexts/TaskContext";
 
-export default function AddTask({ dispatch }) {
+export default function AddTask() {
+  const {dispatch} = useContext(TaskContext)
   const [text, setText] = useState("");
   let nextId = 3;
 
