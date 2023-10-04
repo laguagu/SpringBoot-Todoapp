@@ -1,13 +1,13 @@
 import { useContext, useState } from "react";
-import Button from 'react-bootstrap/Button';
+import Button from "react-bootstrap/Button";
 import { TaskContext } from "../contexts/TaskContext";
 
 export default function AddTask() {
-  const {tasks,dispatch} = useContext(TaskContext)
+  const { tasks, dispatch } = useContext(TaskContext);
   const [text, setText] = useState("");
 
   const handleAddTask = (text) => {
-    let nextId = tasks.length > 0 ? Math.max(...tasks.map(t => t.id)) + 1 : 0;
+    let nextId = tasks.length > 0 ? Math.max(...tasks.map((t) => t.id)) + 1 : 0;
     dispatch({
       type: "added",
       id: nextId++,
@@ -16,7 +16,8 @@ export default function AddTask() {
   };
 
   return (
-    <>
+    <div>
+      <h1>Add tasks</h1>
       <input
         placeholder="Add task"
         value={text}
@@ -30,7 +31,6 @@ export default function AddTask() {
       >
         Add
       </Button>
-
-    </>
+    </div>
   );
 }
