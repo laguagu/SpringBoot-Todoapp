@@ -1,8 +1,3 @@
-export const initialTasks = [
-  { id: 0, text: "Philosopher’s Path", done: false },
-  { id: 1, text: "Visit the temple", done: false },
-  { id: 2, text: "Drink matcha", done: false },
-];
 
 function taskReducer(tasks, action) {
   switch (action.type) {
@@ -11,8 +6,8 @@ function taskReducer(tasks, action) {
         ...tasks,
         {
           id: action.id,
-          text: action.text,
-          done: false,
+          description: action.text,
+          completed: false,
         },
       ];
     }
@@ -24,7 +19,7 @@ function taskReducer(tasks, action) {
         task.id === action.id
           ? {
               ...task,
-              text: action.text,
+              tedescriptionxt: action.text,
             }
           : task
       );
@@ -34,10 +29,13 @@ function taskReducer(tasks, action) {
         t.id === action.id
           ? {
               ...t,
-              done: action.done,
+              completed: action.done,
             }
           : t
       );
+    }
+    case "SET_TASKS": {
+      return action.tasks
     }
 
     default: {

@@ -1,16 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { TaskContext } from "../contexts/TaskContext";
 import Button from "react-bootstrap/Button";
-import { fetchTasks } from "../api/tasks";
+
 
 export default function TaskList() {
   const { tasks, dispatch } = useContext(TaskContext);
-  
-  useEffect(() => {
-    console.log(fetchTasks)
-  }, [])
-
-
   return (
     <div className="d-flex flex-column justify-content-center align-items-center">
       <h1>Tasks</h1>
@@ -27,7 +21,7 @@ export default function TaskList() {
 
 function Task({ task, dispatch }) {
   const [editing, setEditing] = useState(false);
-  const [editText, setEditText] = useState(task.text);
+  const [editText, setEditText] = useState(task.description);
 
   const deleteTask = (taskId) => {
     dispatch({
@@ -36,11 +30,11 @@ function Task({ task, dispatch }) {
     });
   };
 
-  const updateTask = (taskId, newText) => {
+  const updateTask = (taskId, newDescription) => {
     dispatch({
       type: "update",
       id: taskId,
-      text: newText,
+      description: newDescription,
     });
   };
 
@@ -53,7 +47,7 @@ function Task({ task, dispatch }) {
     dispatch({
       type: "toggleDone",
       id: task.id,
-      done: e.target.checked,
+      completed: e.target.checked,
     });
   };
 
@@ -62,7 +56,7 @@ function Task({ task, dispatch }) {
       <div className="">
         <input
           type="checkbox"
-          checked={task.done}
+          checked={task.completed}
           onChange={(e) => setTaskDone(e)}
         />
         {editing ? (
@@ -71,7 +65,7 @@ function Task({ task, dispatch }) {
             onChange={(e) => setEditText(e.target.value)}
           />
         ) : (
-          <span>{task.text}</span>
+          <span>{task.description}</span>
         )}
       </div>
       <div>
