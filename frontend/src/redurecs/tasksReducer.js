@@ -6,7 +6,7 @@ function taskReducer(tasks, action) {
         ...tasks,
         {
           id: action.id,
-          description: action.text,
+          description: action.description,
           completed: false,
         },
       ];
@@ -19,7 +19,7 @@ function taskReducer(tasks, action) {
         task.id === action.id
           ? {
               ...task,
-              tedescriptionxt: action.text,
+              description: action.description,
             }
           : task
       );

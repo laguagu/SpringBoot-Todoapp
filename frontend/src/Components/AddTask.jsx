@@ -1,17 +1,19 @@
 import { useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { TaskContext } from "../contexts/TaskContext";
+import { sendTask } from "../api/tasks";
 
 export default function AddTask() {
   const { tasks, dispatch } = useContext(TaskContext);
   const [text, setText] = useState("");
 
-  const handleAddTask = (text) => {
-    let nextId = tasks.length > 0 ? Math.max(...tasks.map((t) => t.id)) + 1 : 0;
+  const handleAddTask = async (text) => {
+    const newTask = await sendTask(text);
     dispatch({
       type: "added",
-      id: nextId++,
-      text: text,
+      id: newTask.id,
+      description: newTask.description,
+      completed: newTask.completed
     });
   };
 
@@ -24,7 +26,7 @@ export default function AddTask() {
         onChange={(e) => setText(e.target.value)}
       />
       <Button
-        onClick={() => {
+        onClick={async () => {
           setText("");
           handleAddTask(text);
         }}

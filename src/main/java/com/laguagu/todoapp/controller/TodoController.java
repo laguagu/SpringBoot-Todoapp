@@ -23,6 +23,7 @@ public class TodoController {
     public String secured() {
         return "Hello, Secured";
     }
+    @CrossOrigin
     @PostMapping("/")
     public Todo addTodo(@RequestBody Todo todo) {
         return todoRepository.save(todo);
