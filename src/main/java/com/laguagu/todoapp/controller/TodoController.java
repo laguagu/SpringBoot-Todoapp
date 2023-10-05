@@ -14,6 +14,7 @@ public class TodoController {
     @Autowired
     private TodoRepository todoRepository;
 
+    @CrossOrigin(origins = "http://localhost:8080")
     @GetMapping("/")
     public List<Todo> getAllTodos() {
         return todoRepository.findAll();
@@ -22,7 +23,7 @@ public class TodoController {
     public String secured() {
         return "Hello, Secured";
     }
-    @PostMapping
+    @PostMapping("/")
     public Todo addTodo(@RequestBody Todo todo) {
         return todoRepository.save(todo);
     }
