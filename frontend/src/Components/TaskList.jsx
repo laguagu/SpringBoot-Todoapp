@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 export default function TaskList() {
   const { tasks, dispatch } = useContext(TaskContext);
   return (
-    <div className="d-flex flex-column justify-content-center align-items-center">
+    <div className="d-flex flex-column justify-content-center align-items-center p-3 mb-2 bg-secondary text-white rounded">
       <h1>Tasks</h1>
       <ul className="list-unstyled">
         {tasks.map((task) => (
@@ -52,7 +52,7 @@ function Task({ task, dispatch }) {
   };
 
   return (
-    <div className="d-flex justify-content-between">
+    <div className="d-flex justify-content-between p-3 mb-2 bg-light text-dark rounded">
       <div className="">
         <input
           type="checkbox"
