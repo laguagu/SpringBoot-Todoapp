@@ -3,7 +3,6 @@ import './styles.css';
 import AddTask from "./Components/AddTask";
 import TaskList from "./Components/TaskList";
 import { TaskProvider } from "./contexts/TaskContext";
-
 export default function TaskApp() {
   return (
     <TaskProvider>
