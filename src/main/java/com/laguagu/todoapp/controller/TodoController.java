@@ -14,7 +14,7 @@ public class TodoController {
     @Autowired
     private TodoRepository todoRepository;
 
-    @CrossOrigin(origins = "http://localhost:8080")
+    @CrossOrigin
     @GetMapping("/")
     public List<Todo> getAllTodos() {
         return todoRepository.findAll();

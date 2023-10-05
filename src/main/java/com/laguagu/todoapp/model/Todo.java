@@ -10,15 +10,23 @@ public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String task;
+    private String description;
     private Boolean completed = false;
 
     public Todo() {
     }
 
-    public Todo(String task, Boolean completed) {
-        this.task = task;
+    public Todo(String description, Boolean completed) {
+        this.description = description;
         this.completed = completed;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Long getId() {
@@ -27,14 +35,6 @@ public class Todo {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getTask() {
-        return task;
-    }
-
-    public void setTask(String task) {
-        this.task = task;
     }
 
     public Boolean getCompleted() {
