@@ -30,17 +30,18 @@ public class TodoController {
     }
 
     @PostMapping("/")
-    public Todo addTodo(@RequestBody Todo todo) {
-        return todoRepository.save(todo);
+    public ResponseEntity<Todo> addTodo(@RequestBody Todo todo) {
+        Todo savedTodo = todoRepository.save(todo);
+        return new ResponseEntity<>(savedTodo, HttpStatus.CREATED);
     }
-
     @PutMapping("/{id}")
-    public Todo updateTodo(@PathVariable Long id, @RequestBody Todo todo) {
+    public ResponseEntity<Todo> updateTodo(@PathVariable Long id, @RequestBody Todo todo) {
         if (todoRepository.existsById(id)) {
             todo.setId(id);
-            return todoRepository.save(todo);
+            Todo updatedTodo = todoRepository.save(todo);
+            return new ResponseEntity<>(updatedTodo, HttpStatus.OK);
         }
-        return null;
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{id}")

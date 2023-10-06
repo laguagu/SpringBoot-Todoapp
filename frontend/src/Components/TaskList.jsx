@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { TaskContext } from "../contexts/TaskContext";
 import Button from "react-bootstrap/Button";
-import { removeTask } from "../api/tasks";
+import { removeTask, updateTask } from "../api/tasks";
 
 export default function TaskList() {
   const { tasks, dispatch } = useContext(TaskContext);
@@ -37,7 +37,8 @@ function Task({ task, dispatch }) {
     }
   };
 
-  const updateTask = (taskId, newDescription) => {
+  const updateSelectedTask = async (taskId, newDescription) => {
+    const updated = await updateTask(taskId, newDescription)
     dispatch({
       type: "update",
       id: taskId,
@@ -46,7 +47,7 @@ function Task({ task, dispatch }) {
   };
 
   const saveChanges = () => {
-    updateTask(task.id, editText);
+    updateSelectedTask(task.id, editText);
     setEditing(false);
   };
 

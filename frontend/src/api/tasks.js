@@ -27,3 +27,15 @@ export const removeTask = async (taksId) => {
     console.error("Error deleting message", error);
   }
 };
+
+export const updateTask = async (taskID, newDescription) => {
+  try{
+    const response = await axios.put(BASE_URL + taskID, {
+      description: newDescription,
+      completed: false
+    });
+    return response.data
+  } catch (error) {
+    console.error("Error deleting message", error)
+  }
+}
