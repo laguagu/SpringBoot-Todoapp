@@ -15,6 +15,15 @@ export const sendTask = async (taskText) => {
     });
     return response.data;
   } catch (error) {
-    console.error("Error sendin message:", error);
+    console.error("Error sending message:", error);
+  }
+};
+
+export const removeTask = async (taksId) => {
+  try {
+    const response = await axios.delete(BASE_URL + taksId);
+    return response.data
+  } catch (error) {
+    console.error("Error deleting message", error);
   }
 };

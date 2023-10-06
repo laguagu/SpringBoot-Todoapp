@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { TaskContext } from "../contexts/TaskContext";
 import Button from "react-bootstrap/Button";
-
+import { removeTask } from "../api/tasks";
 
 export default function TaskList() {
   const { tasks, dispatch } = useContext(TaskContext);
@@ -23,11 +23,18 @@ function Task({ task, dispatch }) {
   const [editing, setEditing] = useState(false);
   const [editText, setEditText] = useState(task.description);
 
-  const deleteTask = (taskId) => {
-    dispatch({
-      type: "delete",
-      id: taskId,
-    });
+  const deleteTask = async (taskId) => {
+    try {
+      const removed = await removeTask(taskId);
+      if (removed && removed.id) {
+        dispatch({
+          type: "delete",
+          id: removed.id,
+        });
+      }
+    } catch(error) {
+      console.error("Error occured during deleting task", error)
+    }
   };
 
   const updateTask = (taskId, newDescription) => {
@@ -70,17 +77,11 @@ function Task({ task, dispatch }) {
       </div>
       <div>
         {editing ? (
-          <Button onClick={saveChanges}>
-            Save
-          </Button>
+          <Button onClick={saveChanges}>Save</Button>
         ) : (
-          <Button onClick={() => setEditing(true)}>
-            Edit
-          </Button>
+          <Button onClick={() => setEditing(true)}>Edit</Button>
         )}
-        <Button onClick={() => deleteTask(task.id)}>
-          Delete
-        </Button>
+        <Button onClick={() => deleteTask(task.id)}>Delete</Button>
       </div>
     </div>
   );
