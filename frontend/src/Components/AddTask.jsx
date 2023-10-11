@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { TaskContext } from "../contexts/TaskContext";
 import { sendTask } from "../api/tasks";
+import { fetchUsers } from "../api/users";
 
 export default function AddTask() {
   const { tasks, dispatch } = useContext(TaskContext);
@@ -17,8 +18,20 @@ export default function AddTask() {
     });
   };
 
+  async function logUser() {
+    const response = await fetch("http://localhost:8080/api/user/me");
+    const text = await response.text();
+    console.log(text);
+  
+    if (response.ok) {
+      const user = JSON.parse(text);
+      console.log(user);
+    }
+  }
+
   return (
     <div>
+      <button onClick={() => logUser()}>Paina</button>
       <h1>Add tasks</h1>
       <input
         placeholder="Add task"
