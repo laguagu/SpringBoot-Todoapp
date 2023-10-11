@@ -47,12 +47,18 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("api/todos/secured").hasRole("ADMIN");
-                    auth.requestMatchers("/").permitAll();
+                    auth.requestMatchers("/login").permitAll();
                     auth.anyRequest().permitAll();
                 })
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults())
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .invalidateHttpSession(true) // Tuhoaa HTTP istunnon
+                        .deleteCookies("JSESSIONID") // Käyttäjän cookie tunniste
+                )
                 .build();
     }
 
