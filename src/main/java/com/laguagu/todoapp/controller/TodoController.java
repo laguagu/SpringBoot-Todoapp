@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/todos")
-@CrossOrigin(origins = "*")
+@CrossOrigin
 public class TodoController {
 
     @Autowired

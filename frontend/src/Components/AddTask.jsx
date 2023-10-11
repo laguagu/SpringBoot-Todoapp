@@ -19,7 +19,9 @@ export default function AddTask() {
   };
 
   async function logUser() {
-    const response = await fetch("http://localhost:8080/api/user/me");
+    const response = await fetch("http://localhost:8080/api/user/me",{
+      credentials: "include"
+    });
     const text = await response.text();
     console.log(text);
   
