@@ -14,26 +14,12 @@ export default function AddTask() {
       type: "added",
       id: newTask.id,
       description: newTask.description,
-      completed: newTask.completed
+      completed: newTask.completed,
     });
   };
 
-  async function logUser() {
-    const response = await fetch("http://localhost:8080/api/user/me",{
-      credentials: "include"
-    });
-    const text = await response.text();
-    console.log(text);
-  
-    if (response.ok) {
-      const user = JSON.parse(text);
-      console.log(user);
-    }
-  }
-
   return (
     <div>
-      <button onClick={() => logUser()}>Paina</button>
       <h1>Add tasks</h1>
       <input
         placeholder="Add task"
