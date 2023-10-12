@@ -40,7 +40,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/api/todos/secured").hasRole("ADMIN");
                     auth.requestMatchers("/login").permitAll();
-                    auth.anyRequest().permitAll();
+                    auth.requestMatchers("/admin").hasRole("ADMIN");
+                    auth.anyRequest().authenticated();
                 })
                 .userDetailsService(customUserDetailsService)
 //                .httpBasic(Customizer.withDefaults())
