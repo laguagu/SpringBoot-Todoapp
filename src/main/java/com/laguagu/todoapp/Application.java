@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collections;
 
@@ -19,10 +20,10 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 	@Bean
-	CommandLineRunner commandLineRunner(TodoRepository todo, AppUserRepository users) {
+	CommandLineRunner commandLineRunner(TodoRepository todo, AppUserRepository users, PasswordEncoder encoder) {
 		return args -> {
-			users.save(new AppUser("user","password","ROLE_USER"));
-			users.save(new AppUser("admin","password","ROLE_USER,ROLE_ADMIN"));
+			users.save(new AppUser("user",encoder.encode("password"),"ROLE_USER"));
+			users.save(new AppUser("admin",encoder.encode("password"),"ROLE_USER,ROLE_ADMIN"));
 			todo.save(new Todo("description",false));
 		};
 	}

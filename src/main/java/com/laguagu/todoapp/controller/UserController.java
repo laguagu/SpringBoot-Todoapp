@@ -4,6 +4,7 @@ import com.laguagu.todoapp.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,16 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-@RequestMapping("api/user")
 @CrossOrigin
 public class UserController {
 
-    @Autowired
-    private AppUserRepository userRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @GetMapping("/me")
+    @GetMapping("api/user/me")
     public ResponseEntity<?> currentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.isAuthenticated() && authentication.getPrincipal() instanceof UserDetails) {
@@ -34,6 +29,17 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Käyttäjä ei ole kirjautunut sisälle"));
             // Map.of() Palauttaa objecktin ja toimii vain +9 javassa
         }
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/admin")
+    public String admin(){
+        return "Hello admin";
+    }
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/user")
+    public String user(){
+        return "Hello user";
     }
 
 }
