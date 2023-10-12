@@ -1,7 +1,5 @@
 package com.laguagu.todoapp.config;
 
-import com.laguagu.todoapp.service.CustomUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -31,14 +29,14 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Autowired
-    private CustomUserDetailsService userDetailsService;
-
 //    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userDetailsService)
-//                .passwordEncoder(passwordEncoder());
-//    }
+//    private CustomUserDetailsService userDetailsService;
+////
+////    @Autowired
+////    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+////        auth.userDetailsService(userDetailsService)
+////                .passwordEncoder(passwordEncoder());
+////    }
 //    @Bean
 //    public InMemoryUserDetailsManager userDetailsService() {
 //        UserDetails user1 = User.withUsername("user1")
@@ -60,12 +58,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/api/todos/secured").hasRole("ADMIN");
                     auth.requestMatchers("/login").permitAll();
                     auth.anyRequest().permitAll();
                 })
-                .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(formLogin -> formLogin
                         .successHandler((request, response, authentication) -> {

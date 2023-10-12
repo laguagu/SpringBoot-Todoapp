@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "users")
 public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,18 +14,15 @@ public class AppUser {
 
     private String username;
     private String password;
+    private String roles;
 
-    // Roolien hallintaan
-    @ElementCollection(fetch = FetchType.EAGER)
-    private Set<String> roles = new HashSet<>();
+    public AppUser() {
+    }
 
-    public AppUser( String username, String password, Set<String> roles) {
+    public AppUser(String username, String password, String roles) {
         this.username = username;
         this.password = password;
         this.roles = roles;
-    }
-
-    public AppUser() {
     }
 
     public Long getId() {
@@ -51,11 +49,11 @@ public class AppUser {
         this.password = password;
     }
 
-    public Set<String> getRoles() {
+    public String getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<String> roles) {
+    public void setRoles(String roles) {
         this.roles = roles;
     }
 }

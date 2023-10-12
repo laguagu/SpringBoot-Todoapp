@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,8 +26,8 @@ public class TodoController {
     }
 
     @GetMapping("/secured")
-    public String secured() {
-        return "Hello, Secured";
+    public String secured(Principal principal) {
+        return "Hello, Secured "+ principal.getName();
     }
 
     @PostMapping("/")
