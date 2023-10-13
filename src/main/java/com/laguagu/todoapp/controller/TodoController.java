@@ -1,6 +1,7 @@
 package com.laguagu.todoapp.controller;
 
 import com.laguagu.todoapp.model.AppUser;
+import com.laguagu.todoapp.model.SecurityAppUser;
 import com.laguagu.todoapp.model.Todo;
 import com.laguagu.todoapp.repository.AppUserRepository;
 import com.laguagu.todoapp.repository.TodoRepository;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,8 +31,14 @@ public class TodoController {
     private TodoService todoService;
 
     @GetMapping("/")
-    public List<Todo> getAllTodos() {
-        return todoRepository.findAll();
+    public ResponseEntity<List<Todo>> getAllTodosForCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        SecurityAppUser userDetails = (SecurityAppUser) auth.getPrincipal();
+
+        Long userId = userDetails.getAppUser().getId();
+
+        List<Todo> tasksForUser = todoRepository.findByUserId(userId);
+        return ResponseEntity.ok(tasksForUser);
     }
 
     @GetMapping("/secured")

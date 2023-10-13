@@ -12,6 +12,8 @@ export const sendTask = async (taskText) => {
     const response = await axios.post(BASE_URL, {
       description: taskText,
       completed: false,
+    },{
+      withCredentials: true
     });
     return response.data;
   } catch (error) {

@@ -59,6 +59,7 @@ public class Todo {
     public String toString() {
         return "Todo{" +
                 "id=" + id +
+                ", user=" + user +
                 ", description='" + description + '\'' +
                 ", completed=" + completed +
                 '}';

@@ -66,6 +66,7 @@ public class AppUser {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", roles='" + roles + '\'' +
+                ", todos=" + todos +
                 '}';
     }
 }
