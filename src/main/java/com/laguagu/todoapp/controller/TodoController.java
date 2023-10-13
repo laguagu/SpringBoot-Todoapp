@@ -58,12 +58,25 @@ public class TodoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Todo> updateTodo(@PathVariable Long id, @RequestBody Todo todo) {
-        if (todoRepository.existsById(id)) {
-            todo.setId(id);
-            Todo updatedTodo = todoRepository.save(todo);
-            return new ResponseEntity<>(updatedTodo, HttpStatus.OK);
+        Optional<Todo> exitingTodo = todoRepository.findById(id);
+
+        if (!exitingTodo.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        SecurityAppUser userDetails = (SecurityAppUser) auth.getPrincipal();
+
+        Long userId = userDetails.getAppUser().getId();
+
+        //Tarkistus onko nykyinen käyttäjä sama kuin tehtävän omistaja
+        if(!exitingTodo.get().getUser().getId().equals(userId)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        todo.setId(id);
+        todo.setUser(exitingTodo.get().getUser());
+        Todo updatedTodo = todoRepository.save(todo);
+        return new ResponseEntity<>(updatedTodo,HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
