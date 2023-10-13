@@ -1,9 +1,13 @@
 package com.laguagu.todoapp.controller;
 
+import com.laguagu.todoapp.model.AppUser;
 import com.laguagu.todoapp.model.Todo;
+import com.laguagu.todoapp.repository.AppUserRepository;
 import com.laguagu.todoapp.repository.TodoRepository;
+import com.laguagu.todoapp.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +24,9 @@ public class TodoController {
     @Autowired
     private TodoRepository todoRepository;
 
+    @Autowired
+    private TodoService todoService;
+
     @GetMapping("/")
     public List<Todo> getAllTodos() {
         return todoRepository.findAll();
@@ -31,10 +38,15 @@ public class TodoController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Todo> addTodo(@RequestBody Todo todo) {
-        Todo savedTodo = todoRepository.save(todo);
-        return new ResponseEntity<>(savedTodo, HttpStatus.CREATED);
+    public ResponseEntity<Todo> addTodo(@RequestBody Todo todo, Principal principal) {
+        try {
+            Todo savedTodo = todoService.saveTodoForCurrentUser(todo, principal.getName());
+            return new ResponseEntity<>(savedTodo, HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<Todo> updateTodo(@PathVariable Long id, @RequestBody Todo todo) {
         if (todoRepository.existsById(id)) {

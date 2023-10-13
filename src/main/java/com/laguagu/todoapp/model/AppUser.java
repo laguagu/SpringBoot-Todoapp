@@ -2,7 +2,9 @@ package com.laguagu.todoapp.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -14,7 +16,8 @@ public class AppUser {
     private String username;
     private String password;
     private String roles;
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Todo> todos = new ArrayList<>();
     public AppUser() {
     }
 

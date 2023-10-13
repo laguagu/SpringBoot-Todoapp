@@ -22,9 +22,10 @@ public class Application {
 	@Bean
 	CommandLineRunner commandLineRunner(TodoRepository todo, AppUserRepository users, PasswordEncoder encoder) {
 		return args -> {
-			users.save(new AppUser("user",encoder.encode("password"),"ROLE_USER"));
+			AppUser user1 = new AppUser("user",encoder.encode("password"),"ROLE_USER");
+			users.save(user1);
 			users.save(new AppUser("admin",encoder.encode("password"),"ROLE_USER,ROLE_ADMIN"));
-			todo.save(new Todo("description",false));
+			todo.save(new Todo(user1,"description",false));
 		};
 	}
 
