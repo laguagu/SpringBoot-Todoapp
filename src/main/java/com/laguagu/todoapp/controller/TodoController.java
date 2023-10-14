@@ -41,6 +41,31 @@ public class TodoController {
         return ResponseEntity.ok(tasksForUser);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Todo> getTodoById(@PathVariable Long id) {
+        // Hae todo-olio tietyllä id:llä
+        Optional<Todo> optionalTodo = todoRepository.findById(id);
+
+        if (!optionalTodo.isPresent()) {
+            // Jos todoa ei löydy IO:llä
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        // Varmistetaan että todo kuuluu kirjautuneelle käyttäjälle
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        SecurityAppUser userDetails = (SecurityAppUser) auth.getPrincipal();
+        Long userId = userDetails.getAppUser().getId();
+
+        Todo todo = optionalTodo.get();
+        if (!todo.getUser().getId().equals(userId)) {
+            // Jos todo ei kuulu tälle käyttäjälle
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        // Palauta 200 ok
+        return ResponseEntity.ok(todo);
+    }
+
     @GetMapping("/secured")
     public String secured(Principal principal) {
         return "Hello, Secured "+ principal.getName();
