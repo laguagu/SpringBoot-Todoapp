@@ -7,7 +7,7 @@ export default function Appbar() {
       credentials: "include",
     });
     const text = await response.text();
-    console.log(text);
+    console.log("SIUU",text);
 
     if (response.ok) {
       const user = JSON.parse(text);
