@@ -7,11 +7,12 @@ export default function Appbar() {
       credentials: "include",
     });
     const text = await response.text();
-    console.log("SIUU",text);
+    console.log("VASTAUS:",text);
 
     if (response.ok) {
       const user = JSON.parse(text);
       console.log(user);
+      console.log("Käyttäjä ",user.appUser.username)
     }
   }
 

@@ -39,7 +39,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/api/todos/secured").hasRole("ADMIN");
-                    auth.requestMatchers("/login").permitAll();
+//                    auth.requestMatchers("/login").permitAll();
                     auth.requestMatchers("/admin").hasRole("ADMIN");
                     auth.anyRequest().authenticated();
                 })
@@ -49,10 +49,11 @@ public class SecurityConfig {
                         .successHandler((request, response, authentication) -> {
                             logger.info("Autentikointi onnistui: {}", authentication.getName());
                             logger.info("Principal: {}", authentication.getPrincipal().getClass().getName());
-                            response.sendRedirect("/");
+                            response.sendRedirect("http://localhost:8080/");
                         })
                         .failureHandler((request, response, exception) -> {
                             logger.error("Autentikointi epäonnistui: {}", exception.getMessage());
+                            response.sendRedirect("http://localhost:8080/login");
                         })
                 )
                 .logout(logout -> logout
