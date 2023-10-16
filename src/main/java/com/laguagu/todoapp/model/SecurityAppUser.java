@@ -24,6 +24,7 @@ public class SecurityAppUser implements UserDetails {
     public String getPassword() {
         return appUser.getPassword();
     }
+    // Palauttaa kokoelman rooleista
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Arrays.stream(appUser

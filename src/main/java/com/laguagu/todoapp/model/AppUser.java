@@ -1,11 +1,11 @@
 package com.laguagu.todoapp.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -13,7 +13,11 @@ public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull(message = "Username cannot be null")
+    @Size(min = 3, max = 15, message = "Username must be between 3 - 15 characters")
     private String username;
+    @Size(min = 3, message = "Password too short")
+    @NotNull(message = "Password cannot be null")
     private String password;
     private String roles;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

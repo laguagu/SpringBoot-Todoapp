@@ -5,6 +5,7 @@ import com.laguagu.todoapp.model.Todo;
 
 import com.laguagu.todoapp.repository.TodoRepository;
 import com.laguagu.todoapp.service.TodoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
@@ -12,10 +13,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,7 +77,7 @@ public class TodoController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Todo> addTodo(@RequestBody Todo todo, Principal principal) {
+    public ResponseEntity<Todo> addTodo(@Valid @RequestBody Todo todo, Principal principal) {
         try {
             Todo savedTodo = todoService.saveTodoForCurrentUser(todo, principal.getName());
             return new ResponseEntity<>(savedTodo, HttpStatus.CREATED);
@@ -114,6 +119,18 @@ public class TodoController {
             return new ResponseEntity<>(todo.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    // Validointi virheiden käsittely
+    @ResponseStatus(HttpStatus.BAD_REQUEST) // HTTP 400 Bad request
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> { // Hakee kaikki virheet
+            String fieldName = ((FieldError) error).getField(); // Haetaan virheen aiheuttaneen kentän nimi
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return errors;
     }
 
 }
