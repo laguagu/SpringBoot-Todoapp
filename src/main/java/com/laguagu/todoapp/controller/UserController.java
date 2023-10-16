@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin
 public class UserController {
 
     @GetMapping("api/user/me")

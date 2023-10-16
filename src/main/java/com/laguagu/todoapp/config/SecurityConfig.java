@@ -3,6 +3,7 @@ package com.laguagu.todoapp.config;
 import com.laguagu.todoapp.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +16,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -32,15 +40,28 @@ public class SecurityConfig {
         return customUserDetailsService;
     }
 
-
+//    @Bean
+//    CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.setAllowedOrigins(Arrays.asList("*"));
+//        configuration.setAllowedMethods(Arrays.asList("*"));
+//        configuration.setAllowedHeaders(Arrays.asList("*"));
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
+                .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/api/todos/secured").hasRole("ADMIN");
-//                    auth.requestMatchers("/login").permitAll();
+                    auth.requestMatchers("/login").permitAll();
+                    auth.requestMatchers("/logout").permitAll();
                     auth.requestMatchers("/admin").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.POST).permitAll();
+                    auth.requestMatchers(HttpMethod.OPTIONS).permitAll(); // Tähän virhe riviin upposi 2 päivää
                     auth.anyRequest().authenticated();
                 })
                 .userDetailsService(customUserDetailsService)
@@ -57,8 +78,8 @@ public class SecurityConfig {
                         })
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/")
+                        .logoutUrl("/logoutUser")
+                        .logoutSuccessUrl("/login")
                         .invalidateHttpSession(true) // Tuhoaa HTTP istunnon
                         .deleteCookies("JSESSIONID") // Käyttäjän cookie tunniste
                 )

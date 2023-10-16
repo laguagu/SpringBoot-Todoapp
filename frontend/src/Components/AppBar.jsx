@@ -1,5 +1,4 @@
-
-
+import { userlogOut } from "../api/users";
 
 export default function Appbar() {
   async function logUser() {
@@ -7,19 +6,26 @@ export default function Appbar() {
       credentials: "include",
     });
     const text = await response.text();
-    console.log("VASTAUS:",text);
+    console.log("VASTAUS:", text);
 
     if (response.ok) {
       const user = JSON.parse(text);
       console.log(user);
-      console.log("Käyttäjä ",user.appUser.username)
+      console.log("Käyttäjä ", user.appUser.username);
     }
   }
 
+  async function logOut() {
+    console.log("User logged out");
+    userlogOut();
+  }
+
   return (
-    <div style={{padding: 10}}>
+    <div style={{ padding: 10 }}>
       <button onClick={() => logUser()}>Näytä Käyttäjä</button>
-      <button onClick={() => console.log("Logout")} style={{marginLeft:10}}>Log Out</button>
+      <button onClick={() => logOut()} style={{ marginLeft: 10 }}>
+        Log Out
+      </button>
     </div>
   );
 }

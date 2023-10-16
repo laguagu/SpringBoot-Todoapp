@@ -1,29 +1,30 @@
 package com.laguagu.todoapp.controller;
 
-import com.laguagu.todoapp.model.AppUser;
 import com.laguagu.todoapp.model.SecurityAppUser;
 import com.laguagu.todoapp.model.Todo;
-import com.laguagu.todoapp.repository.AppUserRepository;
+
 import com.laguagu.todoapp.repository.TodoRepository;
 import com.laguagu.todoapp.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Repository;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 @RestController
 @RequestMapping("api/todos")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin
 public class TodoController {
 
+    private static final Logger logger = LoggerFactory.getLogger(TodoController.class);
     @Autowired
     private TodoRepository todoRepository;
 
@@ -34,7 +35,6 @@ public class TodoController {
     public ResponseEntity<List<Todo>> getAllTodosForCurrentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         SecurityAppUser userDetails = (SecurityAppUser) auth.getPrincipal();
-
         Long userId = userDetails.getAppUser().getId();
 
         List<Todo> tasksForUser = todoRepository.findByUserId(userId);
@@ -46,8 +46,8 @@ public class TodoController {
         // Hae todo-olio tietyllä id:llä
         Optional<Todo> optionalTodo = todoRepository.findById(id);
 
+        // Jos todoa ei löydy IO:llä
         if (!optionalTodo.isPresent()) {
-            // Jos todoa ei löydy IO:llä
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -77,6 +77,8 @@ public class TodoController {
             Todo savedTodo = todoService.saveTodoForCurrentUser(todo, principal.getName());
             return new ResponseEntity<>(savedTodo, HttpStatus.CREATED);
         } catch (RuntimeException e) {
+            String message = "Ei päästä sisään";
+            logger.error(message);
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
