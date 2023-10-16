@@ -1,6 +1,7 @@
 package com.laguagu.todoapp.config;
 
 import com.laguagu.todoapp.service.CustomUserDetailsService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -36,9 +37,9 @@ public class SecurityConfig {
         this.customUserDetailsService = customUserDetailsService;
     }
 
-    public CustomUserDetailsService getCustomUserDetailsService() {
-        return customUserDetailsService;
-    }
+//    public CustomUserDetailsService getCustomUserDetailsService() {
+//        return customUserDetailsService;
+//    }
 
 //    @Bean
 //    CorsConfigurationSource corsConfigurationSource() {
@@ -64,6 +65,7 @@ public class SecurityConfig {
                     auth.requestMatchers(HttpMethod.OPTIONS).permitAll(); // Tähän virhe riviin upposi 2 päivää
                     auth.anyRequest().authenticated();
                 })
+
                 .userDetailsService(customUserDetailsService)
 //                .httpBasic(Customizer.withDefaults())
                 .formLogin(formLogin -> formLogin

@@ -22,7 +22,6 @@ export default function TaskList() {
 function Task({ task, dispatch }) {
   const [editing, setEditing] = useState(false);
   const [editText, setEditText] = useState(task.description);
-
   const deleteTask = async (taskId) => {
     try {
       const removed = await removeTask(taskId);

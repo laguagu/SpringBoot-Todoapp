@@ -16,6 +16,7 @@ public class TodoService {
     @Autowired
     private AppUserRepository appUserRepository;
 
+    //Api metodi varmistakseen että käyttäjä on olemassa ja sitten tallentaa tehtävän kyseiselle käyttäjälle
     public Todo saveTodoForCurrentUser(Todo todo, String username) {
         AppUser currentUser = appUserRepository.findByUsername(username).orElse(null);
 
