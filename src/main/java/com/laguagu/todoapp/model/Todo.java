@@ -11,7 +11,7 @@ public class Todo {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private AppUser user;
-    
+
     private String description;
     private Boolean completed = false;
 
