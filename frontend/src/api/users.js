@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8080/api/user/";
-const LOGOUT_URL = "http://localhost:8080/logoutUser";
+const BASE_URL = "/api/user/";
+const LOGOUT_URL = "/logoutUser";
 
 export const fetchUsers = async () => {
   try {

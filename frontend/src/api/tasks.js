@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8080/api/todos/";
+const BASE_URL = "/api/todos/";
 
 export const fetchTasks = async () => {
   const response = await axios.get(BASE_URL,{withCredentials: true});
