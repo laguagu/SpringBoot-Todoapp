@@ -77,7 +77,7 @@ public class TodoController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Todo> addTodo(@Valid @RequestBody Todo todo, Principal principal) {
+    public ResponseEntity<Todo> addTodo(@RequestBody Todo todo, Principal principal) {
         try {
             Todo savedTodo = todoService.saveTodoForCurrentUser(todo, principal.getName());
             return new ResponseEntity<>(savedTodo, HttpStatus.CREATED);

@@ -2,6 +2,7 @@ package com.laguagu.todoapp.controller;
 import com.laguagu.todoapp.model.AppUser;
 import com.laguagu.todoapp.model.SecurityAppUser;
 import com.laguagu.todoapp.repository.AppUserRepository;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class UserController {
     }
 
     @PostMapping("api/user/")
-    public ResponseEntity<AppUser> addUser(@RequestBody AppUser user) {
+    public ResponseEntity<AppUser> addUser(@Valid @RequestBody AppUser user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         AppUser newUser = appUserRepository.save(user);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
