@@ -39,9 +39,14 @@ public class UserController {
     public ResponseEntity<?> currentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.getPrincipal() instanceof UserDetails) {
+            if(auth.getPrincipal() instanceof SecurityAppUser) {
             SecurityAppUser userDetails = (SecurityAppUser) auth.getPrincipal();
             logger.info("Käyttäjän tiedot: {}", userDetails);
             return ResponseEntity.ok((UserDetails) auth.getPrincipal());
+            } else { // Else lohko testausta varten.
+                UserDetails userDetails = (UserDetails) auth.getPrincipal();
+                return ResponseEntity.ok(userDetails);
+            }
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Käyttäjä ei ole kirjautunut sisälle"));
         }
