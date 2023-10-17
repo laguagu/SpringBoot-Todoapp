@@ -16,8 +16,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -64,10 +67,23 @@ public class UserController {
     public String admin(){
         return "Hello admin";
     }
+
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/user")
     public String user(){
         return "Hello user";
     }
 
+    // Validointi virheiden käsittely
+    @ResponseStatus(HttpStatus.BAD_REQUEST) // HTTP 400 Bad request
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> { // Hakee kaikki virheet
+            String fieldName = ((FieldError) error).getField(); // Haetaan virheen aiheuttaneen kentän nimi
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return errors;
+    }
 }

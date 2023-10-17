@@ -120,17 +120,6 @@ public class TodoController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    // Validointi virheiden käsittely
-    @ResponseStatus(HttpStatus.BAD_REQUEST) // HTTP 400 Bad request
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> { // Hakee kaikki virheet
-            String fieldName = ((FieldError) error).getField(); // Haetaan virheen aiheuttaneen kentän nimi
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-        return errors;
-    }
+
 
 }

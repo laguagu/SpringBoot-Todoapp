@@ -25,7 +25,7 @@ public class Application {
 			AppUser user1 = new AppUser("user",encoder.encode("pass"),"ROLE_USER");
 			users.save(user1);
 			users.save(new AppUser("admin",encoder.encode("pass"),"ROLE_USER,ROLE_ADMIN"));
-			todo.save(new Todo(user1,"description",false));
+			todo.save(new Todo(user1,"otsikko",false));
 			System.out.println(user1);
 		};
 	}
