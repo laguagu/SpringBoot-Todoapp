@@ -14,6 +14,7 @@ class TodoAppApplicationTests {
 
 	@Test
 	void contextLoads() throws Exception{
+		// Testataan että Controllerin injektointi onnistuu
 		Assertions.assertThat(todoController).isNotNull();
 	}
 }
