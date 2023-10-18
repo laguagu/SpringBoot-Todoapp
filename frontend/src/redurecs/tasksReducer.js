@@ -29,7 +29,7 @@ function taskReducer(tasks, action) {
         t.id === action.id
           ? {
               ...t,
-              completed: action.done,
+              completed: action.completed,
             }
           : t
       );

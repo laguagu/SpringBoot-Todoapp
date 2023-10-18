@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { TaskContext } from "../contexts/TaskContext";
 import Button from "react-bootstrap/Button";
-import { removeTask, updateTask } from "../api/tasks";
+import { removeTask, updateTask, togleCompleted } from "../api/tasks";
 
 export default function TaskList() {
   const { tasks, dispatch } = useContext(TaskContext);
@@ -31,13 +31,13 @@ function Task({ task, dispatch }) {
           id: removed.id,
         });
       }
-    } catch(error) {
-      console.error("Error occured during deleting task", error)
+    } catch (error) {
+      console.error("Error occured during deleting task", error);
     }
   };
 
   const updateSelectedTask = async (taskId, newDescription) => {
-    const updated = await updateTask(taskId, newDescription)
+    const updated = await updateTask(taskId, newDescription);
     dispatch({
       type: "update",
       id: taskId,
@@ -50,7 +50,10 @@ function Task({ task, dispatch }) {
     setEditing(false);
   };
 
-  const setTaskDone = (e) => {
+  const setTaskDone = async (e) => {
+    const checkbox = e.target.checked;
+    console.log(checkbox);
+    const togleDone = await togleCompleted(task, checkbox);
     dispatch({
       type: "toggleDone",
       id: task.id,
@@ -64,7 +67,7 @@ function Task({ task, dispatch }) {
         <input
           type="checkbox"
           checked={task.completed}
-          onChange={(e) => setTaskDone(e)}
+          onChange={setTaskDone}
         />
         {editing ? (
           <input
