@@ -37,20 +37,6 @@ public class SecurityConfig {
         this.customUserDetailsService = customUserDetailsService;
     }
 
-//    public CustomUserDetailsService getCustomUserDetailsService() {
-//        return customUserDetailsService;
-//    }
-
-//    @Bean
-//    CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(Arrays.asList("*"));
-//        configuration.setAllowedMethods(Arrays.asList("*"));
-//        configuration.setAllowedHeaders(Arrays.asList("*"));
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
@@ -61,7 +47,7 @@ public class SecurityConfig {
                     auth.requestMatchers("/login").permitAll();
                     auth.requestMatchers("/logout").permitAll();
                     auth.requestMatchers("/admin").hasRole("ADMIN");
-                    auth.requestMatchers(HttpMethod.POST).permitAll();
+//                    auth.requestMatchers(HttpMethod.POST).permitAll();
                     auth.requestMatchers(HttpMethod.OPTIONS).permitAll(); // Tähän virhe riviin upposi 2 päivää
                     auth.anyRequest().authenticated();
                 })

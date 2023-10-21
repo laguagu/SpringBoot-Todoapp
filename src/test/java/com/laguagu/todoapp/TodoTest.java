@@ -51,7 +51,6 @@ public class TodoTest {
         userRepository.save(user);
         List<Todo> todos = todoRepository.findByUserId(user.getId());
         logger.info("Käyttäjä lisätty: {}, Running at port {}", user, port);
-//        assertEquals(books.get(0).getTitle(), "Kalakirja");
         logger.info("Todo count: {}, First todo Description: {}, Onko todo tyhjä : {}", todos.size(), todos.stream().findFirst(), todos.isEmpty());
         assertEquals(todos.size(), 0);
     }
