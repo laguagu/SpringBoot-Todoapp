@@ -5,7 +5,7 @@ import com.laguagu.todoapp.model.Todo;
 
 import com.laguagu.todoapp.repository.TodoRepository;
 import com.laguagu.todoapp.service.TodoService;
-import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
@@ -13,17 +13,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+
 import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 @RestController
 @RequestMapping("api/todos")
 @CrossOrigin
@@ -73,7 +74,7 @@ public class TodoController {
 
     @GetMapping("/secured")
     public String secured(Principal principal) {
-        return "Hello, Secured "+ principal.getName();
+        return "Hello, Secured " + principal.getName();
     }
 
     @PostMapping("/")
@@ -101,14 +102,14 @@ public class TodoController {
         Long userId = userDetails.getAppUser().getId();
 
         //Tarkistus onko nykyinen käyttäjä sama kuin tehtävän omistaja
-        if(!exitingTodo.get().getUser().getId().equals(userId)) {
+        if (!exitingTodo.get().getUser().getId().equals(userId)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
         todo.setId(id);
         todo.setUser(exitingTodo.get().getUser());
         Todo updatedTodo = todoRepository.save(todo);
-        return new ResponseEntity<>(updatedTodo,HttpStatus.OK);
+        return new ResponseEntity<>(updatedTodo, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
