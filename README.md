@@ -18,3 +18,8 @@ Install my-project with npm
   cd /todo-app/frontend
   npm install
 ```
+## Tech Stack
+
+**Client:** React, Axios, Bootstrap
+
+**Server:** Java, Spring Boot
